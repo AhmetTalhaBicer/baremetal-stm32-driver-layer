@@ -44,7 +44,16 @@ typedef enum {
 #define GPIO_PIN_4 4
 #define GPIO_PIN_5                                                             \
   5 /* Genellikle Nucleo kartlarda LD2 Green LED bu pindedir (PA5) */
+#define GPIO_PIN_6 6
+#define GPIO_PIN_7 7
+#define GPIO_PIN_8 8
+#define GPIO_PIN_9 9
+#define GPIO_PIN_10 10
+#define GPIO_PIN_11 11
+#define GPIO_PIN_12 12
 #define GPIO_PIN_13 13 /* Genellikle Push Button (PC13) */
+#define GPIO_PIN_14 14
+#define GPIO_PIN_15 15
 
 /* GPIO Konfigürasyon Yapısı */
 typedef struct {

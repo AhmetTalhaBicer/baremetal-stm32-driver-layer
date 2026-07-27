@@ -34,6 +34,18 @@
 #define NVIC_ICER_BASEADDR 0xE000E180UL /* Interrupt Clear-Enable Registers */
 #define NVIC_IPR_BASEADDR 0xE000E400UL  /* Interrupt Priority Registers */
 
+/* USART Taban Adresleri */
+#define USART1_BASEADDR (APB2PERIPH_BASEADDR + 0x1000UL)
+#define USART2_BASEADDR (APB1PERIPH_BASEADDR + 0x4400UL)
+
+/* SPI Taban Adresleri */
+#define SPI1_BASEADDR (APB2PERIPH_BASEADDR + 0x3000UL)
+#define SPI2_BASEADDR (APB1PERIPH_BASEADDR + 0x3800UL)
+
+/* I2C Taban Adresleri */
+#define I2C1_BASEADDR (APB1PERIPH_BASEADDR + 0x5400UL)
+#define I2C2_BASEADDR (APB1PERIPH_BASEADDR + 0x5800UL)
+
 /* ========================================================================== */
 /* 2. REGISTER YAPILARI (REGISTER STRUCT DEFINITIONS)                        */
 /* ========================================================================== */
@@ -114,6 +126,50 @@ typedef struct {
       CMPCR; /* Compensation Cell Control Register (Offset: 0x20) */
 } SYSCFG_RegDef_t;
 
+/**
+ * @brief USART Register Haritası
+ */
+typedef struct {
+  volatile uint32_t SR;   /* Status Register (Offset: 0x00) */
+  volatile uint32_t DR;   /* Data Register (Offset: 0x04) */
+  volatile uint32_t BRR;  /* Baud Rate Register (Offset: 0x08) */
+  volatile uint32_t CR1;  /* Control Register 1 (Offset: 0x0C) */
+  volatile uint32_t CR2;  /* Control Register 2 (Offset: 0x10) */
+  volatile uint32_t CR3;  /* Control Register 3 (Offset: 0x14) */
+  volatile uint32_t GTPR; /* Guard Time and Prescaler Register (Offset: 0x18) */
+} USART_RegDef_t;
+
+/**
+ * @brief SPI Register Haritası
+ */
+typedef struct {
+  volatile uint32_t CR1;     /* Control Register 1 (Offset: 0x00) */
+  volatile uint32_t CR2;     /* Control Register 2 (Offset: 0x04) */
+  volatile uint32_t SR;      /* Status Register (Offset: 0x08) */
+  volatile uint32_t DR;      /* Data Register (Offset: 0x0C) */
+  volatile uint32_t CRCPR;   /* CRC Polynomial Register (Offset: 0x10) */
+  volatile uint32_t RXCRCR;  /* RX CRC Register (Offset: 0x14) */
+  volatile uint32_t TXCRCR;  /* TX CRC Register (Offset: 0x18) */
+  volatile uint32_t I2SCFGR; /* I2S Configuration Register (Offset: 0x1C) */
+  volatile uint32_t I2SPR;   /* I2S Prescaler Register (Offset: 0x20) */
+} SPI_RegDef_t;
+
+/**
+ * @brief I2C Register Haritası
+ */
+typedef struct {
+  volatile uint32_t CR1;   /* Control Register 1 (Offset: 0x00) */
+  volatile uint32_t CR2;   /* Control Register 2 (Offset: 0x04) */
+  volatile uint32_t OAR1;  /* Own Address Register 1 (Offset: 0x08) */
+  volatile uint32_t OAR2;  /* Own Address Register 2 (Offset: 0x0C) */
+  volatile uint32_t DR;    /* Data Register (Offset: 0x10) */
+  volatile uint32_t SR1;   /* Status Register 1 (Offset: 0x14) */
+  volatile uint32_t SR2;   /* Status Register 2 (Offset: 0x18) */
+  volatile uint32_t CCR;   /* Clock Control Register (Offset: 0x1C) */
+  volatile uint32_t TRISE; /* TRISE Register (Offset: 0x20) */
+  volatile uint32_t FLTR;  /* FLTR Register (Offset: 0x24) */
+} I2C_RegDef_t;
+
 /* ========================================================================== */
 /* 3. PERIPHERAL POINTER MAKROLARI                                           */
 /* ========================================================================== */
@@ -134,5 +190,26 @@ typedef struct {
 
 /* IRQ (Interrupt Request) Numaraları - STM32F401/F411 için EXTI15_10 hattı */
 #define IRQ_NO_EXTI15_10 40U
+
+#define USART1 ((USART_RegDef_t *)USART1_BASEADDR)
+#define USART2 ((USART_RegDef_t *)USART2_BASEADDR)
+
+/* Clock Enable Makroları */
+#define RCC_USART1_CLK_EN() (RCC->APB2ENR |= (1U << 4))
+#define RCC_USART2_CLK_EN() (RCC->APB1ENR |= (1U << 17))
+
+#define SPI1 ((SPI_RegDef_t *)SPI1_BASEADDR)
+#define SPI2 ((SPI_RegDef_t *)SPI2_BASEADDR)
+
+/* Clock Enable Makroları */
+#define RCC_SPI1_CLK_EN() (RCC->APB2ENR |= (1U << 12))
+#define RCC_SPI2_CLK_EN() (RCC->APB1ENR |= (1U << 14))
+
+#define I2C1 ((I2C_RegDef_t *)I2C1_BASEADDR)
+#define I2C2 ((I2C_RegDef_t *)I2C2_BASEADDR)
+
+/* Clock Enable Makroları */
+#define RCC_I2C1_CLK_EN() (RCC->APB1ENR |= (1U << 21))
+#define RCC_I2C2_CLK_EN() (RCC->APB1ENR |= (1U << 22))
 
 #endif /* STM32F4XX_H */
